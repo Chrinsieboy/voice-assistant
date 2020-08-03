@@ -1,0 +1,10 @@
+{
+    "name": "Yarin",
+    "city" : "Los Angeles",
+    "volume" : "0.7",
+    "WEATHER_API_KEY" : "API-KEY-HERE",
+    "gender" : 0,
+    "speedRate" : 150,
+    "isAlwaysOn": false
+}
+
