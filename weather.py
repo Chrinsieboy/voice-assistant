@@ -1,7 +1,7 @@
 import requests, json
 def weather(CITY):
     BASE_URL = "https://api.openweathermap.org/data/2.5/weather?"
-    API_KEY = "f35c2d69bbee6d24283a58acbbb7219a"
+    API_KEY = "API-KEY-HERE"
     # upadting the URL
     URL = f"{BASE_URL}q={CITY}&appid={API_KEY}&units=metric"
     # HTTP request
