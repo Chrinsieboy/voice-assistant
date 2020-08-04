@@ -1,0 +1,21 @@
+Modules to install - 
+pip install pyttsx3
+pip install pyaudio
+pip install SpeechRecognition
+pip install requests
+pip install wikipedia
+pip install webbrowser (idk if included in default libraries)
+
+Stable microphone so he can hear you properly.
+Configure config.json file to your details.
+Have an API key of openweathermap.com, the API key in the first commit is revoked.
+
+Config Explanation - 
+name - Your name so sometimes the assistant will call your name.
+city - If you ask whats the weather today, it will  automatically show your city.
+volume - Volume of the assistant 0 - 1.
+WEATHER-API-KEY - Optional, you can also put it in the constructor of Weather class in weather.py.
+gender - Gender of your voice assistant, 0 for male and 1 for female.
+speedRate - The speed rate of talking in voice assistant answers, default is 200.
+isAlwaysOn - If its true and you start the program, the voice assistant will keep working until you tell to him to quit or close. If set to false, it will work for 1 command and then stop the program.
+
