@@ -7,11 +7,11 @@ from wikipedia_ask import Wikipedia # Importing wiki.py for getting wiki page su
 from date import Date # Importing date.py module to get date information
 from time import sleep # Importing time.sleep to add a delay
 from web_open import Webber # Importing Webber class to be able to search and open web browsers
-from commands import commands, sorry_list # Importing the commands Jarvis supports, and the list for Jarvis when he doesn't understand
+from commands import commands, sorry_list, thanks_list # Importing the commands Jarvis supports, and the list for Jarvis when he doesn't understand and when you thank him
 import random # Importing random library to select random answers for Jarvis
-
-
-
+ 
+ 
+ 
 class Assistant(Weather, Wikipedia, Date, Webber): #! Jarvis class
     def __init__(self, config):
         super().__init__() # Getting all the commands constractors
@@ -20,12 +20,12 @@ class Assistant(Weather, Wikipedia, Date, Webber): #! Jarvis class
         self.Microphone = sr.Microphone() # Custom Microphone
         self.engine = pyttsx3.init() # Custom Engine
         self.commands = commands
-
+ 
         #* Setting config for the Engine:
         self.setGender()
         self.setVolume()
         self.setSpeedRate()
-
+ 
         #* Setting up objects from the super classes:
         self.date = Date()
         self.weather = Weather()
@@ -38,19 +38,20 @@ class Assistant(Weather, Wikipedia, Date, Webber): #! Jarvis class
         self.volume = config['volume']
         self.gender = config['gender']
         self.speedRate = config['speedRate']
+        self.isAlwaysOn = config['isAlwaysOn']
     
     def setVolume(self):
         self.engine.setProperty('volume', self.volume)
-
+ 
     def setGender(self):
         voices = self.engine.getProperty('voices')
         self.engine.setProperty('voice', voices[self.gender].id)
     
     def setSpeedRate(self):
         self.engine.setProperty('rate', self.speedRate)
-
-
-
+ 
+ 
+ 
     def listen(self):
         with self.Microphone as source:
             try:
@@ -59,12 +60,12 @@ class Assistant(Weather, Wikipedia, Date, Webber): #! Jarvis class
                 text = self.Recognizer.recognize_google(audio)
                 return text
             except:
-                return f"Sorry {self.name}, I couldn't hear you."
-
+                return f"sorry {self.name}, i didn't hear you..."
+ 
     def say(self, whatToSay):
         self.engine.say(whatToSay)
         self.engine.runAndWait()
-
+ 
     def recognize(self, text):
         #if text.lower() in self.commands:
         text = text.lower() 
@@ -78,19 +79,27 @@ class Assistant(Weather, Wikipedia, Date, Webber): #! Jarvis class
             return "Jarvis, Sir"    
         elif "my name" in text:
             return self.name + " the king"
-        elif "year" in text or "ear" in text:
+        elif "year" in text:
             return self.date.getTime()['year']
         elif "the time" in text:
             return self.date.getHourByName()
         elif "open" in text:
             if "youtube" in text:
+                self.say("opening...")
                 self.web.openURL("youtube.com")
             elif "google" in text:
-                self.web.openURL("google.com")    
+                self.say("opening...")
+                self.web.openURL("google.com")  
             elif "stack overflow" in text:
-                self.web.openURL("stackoverflow.com")
+                self.say("opening...")
+                self.web.openURL("stackoverflow.com")               
             else:
-                self.say("I'm not skilled enough to open this")
+                self.say("I'm not skilled enough to open this page")
+        elif "sleep" in text:
+            self.say("good night sir, thank you for giving me life!")
+            text = self.listen()
+        elif "thank" in text:
+            return random.choice(thanks_list)
         elif "wiki" in text or "wikipedia" in text or "what is" in text:
             self.say("what is the subject that you want to know?")
             text = self.listen()
@@ -100,33 +109,55 @@ class Assistant(Weather, Wikipedia, Date, Webber): #! Jarvis class
                 print(self.getSummary(text, 'NO'))               
         else:
             return random.choice(sorry_list)
+ 
             
-
-
+ 
+ 
     def startUp(self):
         bless = self.getBless()
         self.say(f"Hi {self.name}, {bless}")
         print(bless)      
         self.say(self.getStartUpDate())
-
+ 
+ 
+ 
+ 
+    def mainLoop(self):
+        while self.isAlwaysOn:
+            userSpeak = Jarvis.listen()
+    
+            if userSpeak == f"sorry {self.name}, i didn't hear you..." or userSpeak == None:
+                pass
+            elif 'close' in userSpeak or 'leave' in userSpeak or 'exit' in userSpeak:
+                self.say("Good bye sir, have a good time!")
+                print("unconnected...")
+                self.isAlwaysOn = False
+            else:
+                print(userSpeak) 
+                data = Jarvis.recognize(userSpeak)
+                Jarvis.say(data)
+        else:
+            userSpeak = Jarvis.listen()
+            
+            print(userSpeak) 
+            data = Jarvis.recognize(userSpeak)
+            Jarvis.say(data)
+ 
+            
     
         
-
+ 
         
-
-
+ 
+ 
 with open('config.json', 'r') as con:
     config = json.load(con)
-
-
+ 
+ 
 Jarvis = Assistant(config)
-
-Jarvis.startUp()
-x = Jarvis.listen()
-print(x)
-data = Jarvis.recognize(x)
-Jarvis.say(data)
-
-
-
-
+ 
+ 
+"""Jarvis.startUp()"""
+ 
+ 
+Jarvis.mainLoop()

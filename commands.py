@@ -11,7 +11,7 @@ commands = [
     "open"
 ] # Commands that you can ask Jarvis 
   # Includes some commmands that don't make any scence but are very familiar with the real commands
-
+ 
   
 sorry_list = [
     "Sorry... I didnt understand that",
@@ -23,3 +23,13 @@ sorry_list = [
     "I didn't get that, could you try again?",
     "Sorry, could you repeat that?"
 ] # Sentences that appear when the command isn't clear or not familiar to Jarvis
+ 
+ 
+thanks_list = [
+  "thank you sir", 
+  "don't thank me, it's my job...", 
+  "it's not like I have a choice", 
+  "your'e welcome sir", 
+  "not a problem", 
+  "come again", 
+]

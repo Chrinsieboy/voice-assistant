@@ -1,9 +1,8 @@
-<<<<<<< HEAD
 import requests # Importing requests module to request from the weather API
 import json # Importing JSON module to parse data from the requests
 
 
-
+#@ 
 
 class Weather():
     def __init__(self, API_KEY="API-KEY-FROM-CONFIG.JSON"): # Request the api key in the constractor
@@ -42,7 +41,6 @@ class Weather():
 
     
     
-=======
 import requests, json
 def weather(CITY):
     BASE_URL = "https://api.openweathermap.org/data/2.5/weather?"
@@ -74,5 +72,4 @@ def weather(CITY):
         # showing the error message
         print("Error in the HTTP request")
         print(response.status_code)
->>>>>>> 82b55e52095e2c5f9724a9d2f3b728ae682c2ec3
 
